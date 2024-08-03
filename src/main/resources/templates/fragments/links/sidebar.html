@@ -1,0 +1,45 @@
+<div class="sidebar m-2 w-25 position-absolute row bg-transparent" th:fragment="sidebar"  style="z-index: 1 !important;">
+
+    <style>
+        a{
+            text-decoration: none;
+            color: black;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .side-list:hover{
+            background-color: rgb(119, 221, 86) !important;
+            a{
+                color: white;
+            }
+        }
+    </style>
+
+    <div class="sidebar-content col-10 d-none bg-dark" style="height: 100vh;">
+        <div class="side-list p-2 m-1 bg-light"><a href="/"><i class="bi bi-house"></i> Home</a></div>
+        <div class="side-list p-2 m-1 bg-light"><a href="/user/profile"><i class="bi bi-person"></i> My Profile</a></div>
+        <div class="side-list p-2 m-1 bg-light"><a href="/ai/ai-page"><i class="bi bi-chat"></i> AI Chat</a></div>
+        <div class="p-2 m-1 bg-light">
+            <a class="btn btn-primary w-100 h-100" th:href="@{'/login'}">Login</a>
+        </div>
+        <div class="p-2 m-1 bg-light">
+            <a class="btn btn-warning w-100 h-100" th:href="@{'/registration'}">Register</a>
+        </div>
+        <div class="p-2 m-1 bg-light">
+            <a class="btn btn-danger w-100 h-100" th:href="@{'/do-logout'}">Logout</a>
+        </div>
+
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn bg-secondary text-white my-auto p-3 toggleButton" style="border: 1px solid white;" onclick="toggleSidebar()"><i class="bi bi-arrow-left-right"></i></button>
+    </div>
+    
+    <script>
+        function toggleSidebar() {
+            var element = document.querySelector(".sidebar-content");
+            element.classList.toggle("d-none");
+            var element2 = document.querySelector(".toggleButton");
+            element2.classList.toggle("h-100");
+        }
+    </script>
+</div>

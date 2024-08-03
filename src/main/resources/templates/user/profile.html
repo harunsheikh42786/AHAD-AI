@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::title}, ~{::style}, ~{::#content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+
+        #content{
+            /* background:  linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.5)), url("/bg.jpg"); */
+            /* background-size: cover; */
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            top: 55px;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid yellow;
+            padding: 5px;
+            margin-top: 40px;
+        }
+
+        .top-links{
+            margin-top: 5px;
+            position: absolute;
+            right: 20px;
+            
+            a{
+                font-size: 40px;
+            }
+            a:hover{
+                color: red;
+            }
+        }
+
+        .sidenav{
+            height: 100%;
+        }
+
+        .side-btn{
+            padding: 16px 20px;
+            cursor: pointer;
+            border-radius: 30px;
+            width: 180px;
+        }
+        .card-body{
+            box-shadow: inset 5px 5px 5px grey !important;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .prop{
+            font-family: Book Antiqua;
+            background-color: rgb(216, 214, 214) !important;
+        }
+        .heading{
+            background-color: #5e5e5e !important;
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="content" class="h-100">
+       
+
+
+        <div class="container-fluid d-flex bg-light text-center">
+            <h1 class="mx-auto fw-bold" style="font-family: Freestyle Script; font-size: 60px;">Profile</h1>
+            <div class="top-links row">
+                <div class="col"><a th:href="@{'/ai/ai-page'}"><i class="bi bi-chat"></i></a></div>
+                <div class="col"><a th:href="@{'/'}"><i class="bi bi-home"></i></a></div>
+                <div class="col"><a th:href="@{'/do-logout'}"><i class="bi bi-box-arrow-right"></i></a></div>
+            </div>
+        </div>
+
+                <div class="row">
+
+                    <div class="sidenav bg-light text-center col-md-3">
+                        <div class="profile-container mb-4">
+                            <img th:src="${'/img/hs.jpg'}">
+                        </div>
+                        <div class="mb-2">
+                            <h1 th:text="${user.name}">Muhammad Harun</h1>
+                        </div>
+                        <div class="mb-4">
+                            <h3 th:text="${user.profession}">Java Developer</h3>
+                        </div>
+                        <div class="mb-3">
+                            <a class="side-btn btn btn-primary" th:href="@{'/user/profile'}">Profile</a>
+                        </div>
+                        <div>
+                            <button class="side-btn btn btn-secondary" type="submit" onclick="updateToggle()">Settings</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-9 card p-0 m-0 h-100">
+                        
+                        <div class="card-body w-100 m-0 fs-5">
+                            <div class="text-center">
+                                <p th:text="${message.content}" th:class="'text-' + ${message.type} + ' fw-bold'"></p>
+                            </div>
+                            <table class="table table-hover h-100 show-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="heading">Field</th>
+                                        <th scope="col" class="heading">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="prop">Username</td>
+                                        <td th:text="${user.username}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">Email</td>
+                                        <td th:text="${user.email}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">Phone No</td>
+                                        <td th:text="${user.phone}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">Gender</td>
+                                        <td th:text="${user.gender}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">D.O.B.</td>
+                                        <td th:text="${user.dob}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">City</td>
+                                        <td th:text="${user.city}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">Country</td>
+                                        <td th:text="${user.country}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">Profession</td>
+                                        <td th:text="${user.profession}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="prop">Account Type</td>
+                                        <td th:text="${user.role == 'ROLE_NORMAL'? 'Normal' : 'Developer'}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-hover text-dark d-none update-table">
+                                <form th:action="@{'/update-user'}" method="post">
+                                    <thead>
+                                        
+                                        <tr>
+                                            <th scope="col" class="heading">Field</th>
+                                            <th scope="col" class="heading">Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <input type="text" name="id" th:value="${user.id}" hidden>
+                                        <tr>
+                                            <td class="prop"><label for="name">Name</label></td>
+                                            <td><input type="text" name="name" id="name" th:value="${user.name}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="username">Username</label></td>
+                                            <td><input type="text" name="username" id="username" th:value="${user.username}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="name">Email</label></td>
+                                            <td><input type="email" name="email" id="email" th:value="${user.email}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="phone">Phone No</label></td>
+                                            <td><input type="text" name="phone" id="phone" th:value="${user.phone}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="gender">Gender</label></td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" name="gender" id="male" th:checked="${user.gender == 'male'}" value="male"
+                                                        class="form-check-input">
+                                                    <label for="male" class="form-check-label" style="background: none;">Male</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" name="gender" id="female" th:checked="${user.gender == 'female'}" value="female"
+                                                        class="form-check-input">
+                                                    <label for="female" class="form-check-label" style="background: none;">Female</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="prop"><label for="dob">D.O.B.</label></td>
+                                            <td><input type="text" name="dob" id="dob" th:value="${user.dob}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="city">City</label></td>
+                                            <td><input type="text" name="city" id="city" th:value="${user.city}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="country">Country</label></td>
+                                            <td><input type="text" name="country" id="country" th:value="${user.country}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="profession">Profession</label></td>
+                                            <td><input type="text" name="profession" id="profession" th:value="${user.profession}" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="prop"><label for="password">Password</label></td>
+                                            <td><input type="text" name="password" id="password" class="form-control" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-center"><button type="submit" class="btn btn-primary w-25">Submit</button>
+                                            <button type="reset" class="btn btn-warning w-25">Reset</button></td>
+                                        </tr>
+                                    </tbody>
+                                </form>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+        </div>
+
+
+    <script>
+        console.log("Profile Page");
+    function updateToggle() {
+        // Get the first element with class 'show-table' and 'update-table'
+        let showTable = document.querySelector(".show-table");
+        let updateTable = document.querySelector(".update-table");
+
+        // Check if 'show-table' is visible by checking the presence of 'd-none' class
+        if (showTable && !showTable.classList.contains("d-none")) {
+            // If 'show-table' is visible, hide it and show 'update-table'
+            showTable.classList.add("d-none");  // Hide showTable
+            if (updateTable) {
+                updateTable.classList.remove("d-none");  // Show updateTable
+            }
+        } else {
+            // If 'show-table' is not visible, show it and hide 'update-table'
+            if (updateTable) {
+                updateTable.classList.add("d-none");  // Hide updateTable
+            }
+            if (showTable) {
+                showTable.classList.remove("d-none");  // Show showTable
+            }
+        }
+    }
+
+    </script>
+
+</body>
+
+</html>
