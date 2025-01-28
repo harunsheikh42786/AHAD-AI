@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::title}, ~{::style}, ~{::#content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+
+<body>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        #content {
+            background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8)), url('/bg.jpg');
+            background-size: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            /* height: calc(100vh - 55px); */
+            /* 100% of the viewport height minus the navbar height */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .description {
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+
+        .action {
+            position: absolute;
+            top: 60px;
+            right: 40px;
+        }
+    </style>
+
+    <div id="content" class="text-center vh-100">
+        <div class="description">
+            <h1>Welcome to AHAD AI</h1>
+            <p>
+                AHAD AI is a user-friendly AI-powered chat application, leveraging the advanced capabilities of Ollama
+                to provide seamless and intelligent interactions. Whether you need quick responses, detailed
+                information, or engaging conversations, AHAD AI is here to assist you.
+            </p>
+            <p>
+                Our platform offers features for sending requests, receiving responses, and deleting chats, ensuring a
+                streamlined and efficient experience. Enjoy the simplicity and power of AHAD AI, your reliable assistant
+                for all your conversational needs, powered by the cutting-edge technology of Ollama.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        console.log("Home Page");
+    </script>
+
+</body>
+
+</html>

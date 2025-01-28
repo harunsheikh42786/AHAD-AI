@@ -1,0 +1,82 @@
+<div class="sidebar m-2 w-25 position-absolute row bg-transparent" th:fragment="sidebar" style="z-index: 1;">
+    <style>
+        a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .sidebar-content {
+            background: linear-gradient(135deg, #282c34, #3a3f47);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* padding: 15px; */
+        }
+
+        .side-list {
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .side-list:hover {
+            background-color: #b0b0b049;
+
+            a {
+                color: white;
+            }
+        }
+
+        .sidebar-button {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .sidebar-button:hover {
+            transform: scale(1.05);
+        }
+
+        .toggle-button {
+            border: 1px solid #777;
+            /* border-radius: 50%; */
+            background-color: #343a40;
+            color: #fff;
+            font-size: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .toggle-button:hover {
+            background-color: #495057;
+            /* transform: rotate(180deg); */
+        }
+    </style>
+
+    <div class="sidebar-content col-10 d-none bg-dark">
+        <div class="side-list p-2 mt-2"><a href="/"><i class="bi bi-house me-2"></i>Home</a></div>
+        <div class="side-list p-2"><a href="/user/profile"><i class="bi bi-person me-2"></i>My Profile</a></div>
+        <div class="side-list p-2"><a href="/ai/ai-page"><i class="bi bi-chat me-2"></i>AI Chat</a></div>
+        <div class="p-2">
+            <a class="btn btn-primary sidebar-button" th:href="@{'/login'}">Login</a>
+        </div>
+        <div class="p-2">
+            <a class="btn btn-warning sidebar-button" th:href="@{'/registration'}">Register</a>
+        </div>
+        <div class="p-2">
+            <a class="btn btn-danger sidebar-button" th:href="@{'/do-logout'}">Logout</a>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <button type="button" class="btn toggle-button p-3" onclick="toggleSidebar()"><i
+                class="bi bi-arrow-left-right"></i></button>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.querySelector(".sidebar-content").classList.toggle("d-none");
+            document.querySelector(".toggle-button").classList.toggle("h-100");
+        }
+    </script>
+</div>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="parent(title, style, content, script)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">Base Page</title>
+    <th:block th:replace="~{fragments/links/style :: link}"></th:block>
+</head>
+
+<body>
+    <div rel="stylesheet" th:replace="${style}"></div>
+    <div class="bg-dark container-fluid">
+        <div th:replace="${content}"></div>
+    </div>
+    <div th:replace="${script}"></div>
+    <th:block th:replace="~{fragments/links/script-link :: script}"></th:block>
+</body>
+
+</html>

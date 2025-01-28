@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{ai-base :: parent(~{::title}, ~{::style}, ~{::#content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHAD-AI</title>
+    <style>
+        .side-list:hover,
+        .active1 {
+            background-color: #495057;
+            border-radius: 5px;
+        }
+
+        .menu-list {
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .menu-list {
+            text-align: end;
+            float: right;
+            color: #292f35;
+        }
+
+        .dots i {
+            color: rgba(33, 37, 41, 1);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .b-none {
+            border: none;
+        }
+
+        .dots:hover i {
+            color: white;
+        }
+
+        .show-menu {
+            position: static;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            left: 300px;
+        }
+
+        .show-menu div {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .show-menu div:hover {
+            background-color: #f0f0f0;
+        }
+
+        .chat-message {
+            float: right;
+            margin-right: 25px;
+            width: fit-content;
+            border-radius: 20px;
+            background-color: #2f2f2f;
+            padding: 15px;
+        }
+        .chat-submit{
+            background-color: #2f2f2f;
+        }
+        .chat-submit:active {
+            background-color: #2f2f2f;
+        }
+        .chat-opr:hover{
+            background-color: #393f44;
+        }
+        .note-opr:hover{
+            background-color: #272b2e;
+        }
+        .extra-link{
+            background-color: #393f44;
+            a{
+                text-decoration: none;
+            }
+        }
+        .extra-link:hover{
+            background-color: #2e3336;
+        }
+        .main{
+            background-color: #212121;
+        }
+        .border-element{
+            border: 1px solid #495057;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content" class="d-flex bg-dark">
+        <div class="sidebar bg-gradient p-3 d-flex flex-column"
+            style="width: 20%; height: 100vh; overflow-y: auto;">
+            <div>
+                <div class="side-list p-2 mb-2 border-element">
+                    <a th:href="@{'/ai/new-note'}" class="btn text-white w-100 fs-5 fw-bold">
+                        <i class="bi bi-chat-right-text" style="margin-right: 10px;"></i> New Chat</a>
+                </div>
+                <div th:each="note : ${notes}" class="side-list p-1 mb-1">
+                    <div class="form-group d-flex position-relative" th:classappend="${note.id == noteId} ? 'active1' : ''">
+                        <a th:href="${'/ai/search-note/' + note.id}" class="text-white btn fs-5 w-75 text-start btn-submit"
+                            style="padding: 2px; margin: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <span th:text="${note.name}"></span>
+                        </a>
+                
+                        <input type="hidden" name="noteId" class="form-control id-input" th:value="${note.id}">
+                        <input type="text" name="noteName" class="form-control name-input d-none" th:value="${note.name}">
+                
+                        <span class="btn fs-5 m-0 b-none dots-btn note-opr" onclick="showButtons(event)"><i
+                                class="bi bi-three-dots text-white"></i></span>
+                
+                        <span class="btn fs-5 m-0 b-none opr-btn note-opr d-none" onclick="renameNote(event)"><i
+                                class="bi bi-pen text-warning"></i></span>
+                        <a th:href="${'/ai/remove-note/'+ note.id}" class="btn fs-5 m-0 b-none opr-btn d-none note-opr"><i
+                                class="bi bi-trash text-danger"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 mt-auto text-center active1">
+                <a th:href="@{'/user/profile'}" class="text-white fw-bold fs-5 w-100"><i
+                        class="bi bi-person-circle"></i> User Profile</a>
+            </div>
+            <div class="row mt-2 p-2 border-element">
+                <a class="col btn extra-link m-1 text-white" th:href="@{'/'}">Home</a>
+                <a class="col btn extra-link m-1 text-white" th:href="@{'/do-logout'}">Logout</a>
+            </div>
+        </div>
+
+        <div class="main" style="width: 80%; height: 100vh; margin: auto;">
+            <!-- Chat container -->
+            <div id="chat-container" class="body mb-3 bg-transparent"
+                style="height: 85vh; overflow-y: auto; overflow-x: hidden;">
+                <!-- Display chats if available -->
+                <div class="row" th:if="${#lists.size(chats) > 0}" th:each="chat : ${chats}" style="font-size: 18px;">
+                    <div th:if="${chat.query != null}" class="mt-3 offset-3 col-8 text-light">
+                        <p class="chat-message text-end" th:text="${chat.query}" style="font-weight: lighter; font-family: Arial; padding: 10px;"></p>
+                    </div>
+                    <div th:if="${chat.response != null}" class="offset-1 col-10 chat-response text-light">
+                        <p class="mx-2 p-1" th:utext="${chat.response}"
+                            style="border-radius: 20px;"></p>
+                        <!-- Action buttons for chat -->
+                        <div class="actions mx-4 col-2 text-center d-flex"
+                            style="border: 2px solid rgb(158, 158, 158); border-radius: 10px; background-color: rgba(255, 255, 255, 0.1);">
+                            <span class="btn w-50 text-white chat-opr" onclick="copyChat(event)"
+                                style="cursor: pointer; padding: 5px;">
+                                <i class="bi bi-copy mx-2"></i>
+                            </span>
+                            <span class="btn w-50 text-danger chat-opr" onclick="deleteChat(event)"
+                                style="cursor: pointer; padding: 5px;">
+                                <i class="bi bi-trash mx-2"></i>
+                            </span>
+                            <input type="hidden" name="chatId" class="form-control fs-5" th:value="${chat.id}">
+                            <input type="hidden" name="noteId" class="form-control fs-5" th:value="${noteId}">
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Message when no chats are available -->
+                <div th:unless="${#lists.size(chats) > 0}" class="text-center text-white p-2"
+                    style="height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <img class="w-75 h-50" th:src="@{'/img/logo1.png'}" style="max-width: 600px; max-height: 300px;">
+                    <!-- <h3 class="mt-4">
+                        <p class="mx-2 p-4 text-white" style="border-radius: 20px; font-size: 1.5rem;">Let's start a
+                            new conversation!</p>
+                    </h3> -->
+                </div>
+            </div>
+        
+            <!-- Chat input form -->
+            <div class="p-2 w-50 mx-auto chat-submit"
+                style="border-radius: 45px; border: 1px solid white; background-color: rgba(67, 67, 67, 0.3);">
+                <form th:action="@{'/ai/search-query'}" method="post">
+                    <div class="form-group d-flex" style="margin-left: 30px;">
+                        <input type="text" name="request" placeholder="Enter your query" class="w-100 fs-5 text-white chat-submit"
+                            style="border: none; outline: none; background-color: transparent; padding: 10px; border-radius: 25px;"
+                            autocomplete="off">
+                        <input type="hidden" name="noteId" class="fs-5" th:value="${noteId}">
+                        <button type="submit" class="btn text-white"
+                            style="font-size: 30px; padding: 10px;">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <style>
+                    input:-webkit-autofill {
+                        background-color: transparent !important;
+                        -webkit-text-fill-color: white !important;
+                        box-shadow: 0 0 0px 1000px transparent inset !important;
+                    }
+                </style>
+
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{'/js/ai-page-script.js'}"></script>
+
+</body>
+
+</html>

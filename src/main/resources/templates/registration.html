@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::title}, ~{::style}, ~{::#content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+</head>
+
+<body>
+
+    <style>
+        #content {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8)), url('/bg.jpg');
+            background-size: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        form {
+            font-size: larger;
+        }
+
+        .mb-3 {}
+
+        h3 {
+            width: 75%;
+            margin: 15px auto;
+            padding: 5px;
+            color: white;
+        }
+
+        label {
+            background-color: rgb(153, 205, 50);
+            color: black;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .action {}
+    </style>
+
+    <div id="content" class="row justify-content-center fw-bold">
+
+        <form th:action="@{'/registration-processing'}" method="post" class="col-md-6 text-center mx-auto py-3 my-2"
+            style="border: 2px solid white;">
+            
+            <h3>Registration Form</h3>
+            <div class="text-center">
+                <p th:text="${message.content}" th:class="'text-' + ${message.type} + ' fw-bold'"></p>
+            </div>
+            <div class="mb-3 row justify-content-center">
+                <label for="name" class="col-sm-4 col-form-label">Name</label>
+                <div class="col-sm-6">
+                    <input type="text" name="name" id="name" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="mb-3 row justify-content-center">
+                <label for="email" class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-6">
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="mb-3 row justify-content-center">
+                <label for="username" class="col-sm-4 col-form-label">Username</label>
+                <div class="col-sm-6">
+                    <input type="text" name="username" id="username" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row justify-content-center">
+                <label for="gender" class="col-sm-4 col-form-label">Gender</label>
+                <div class="col-sm-6 d-flex align-items-center">
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" id="male" value="male" class="form-check-input">
+                        <label for="male" class="form-check-label text-white" style="background: none;">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" id="female" value="female" class="form-check-input">
+                        <label for="female" class="form-check-label text-white" style="background: none;">Female</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 row justify-content-center">
+                <label for="dob" class="col-sm-4 col-form-label">D.O.B.</label>
+                <div class="col-sm-6">
+                    <input type="date" name="dob" id="dob" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row justify-content-center">
+                <label for="phone" class="col-sm-4 col-form-label">Phone</label>
+                <div class="col-sm-6">
+                    <input type="text" name="phone" id="phone" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row justify-content-center">
+                <label for="city" class="col-sm-4 col-form-label">City</label>
+                <div class="col-sm-6">
+                    <input type="text" name="city" id="city" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="mb-3 row justify-content-center">
+                <label for="country" class="col-sm-4 col-form-label">Country</label>
+                <div class="col-sm-6">
+                    <input type="text" name="country" id="country" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="mb-3 row justify-content-center">
+                <label for="profession" class="col-sm-4 col-form-label">Profession</label>
+                <div class="col-sm-6">
+                    <input type="text" name="profession" id="profession" class="form-control">
+                </div>
+            </div>
+            <div class="mb-3 row justify-content-center">
+                <label for="role" class="col-sm-4 col-form-label">Account Type</label>
+                <div class="col-sm-6 d-flex align-items-center">
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="role" id="normal" value="ROLE_NORMAL" class="form-check-input">
+                        <label for="normal" class="form-check-label text-white" style="background: none;">Normal</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="role" id="developer" value="ROLE_NORMAL" class="form-check-input">
+                        <label for="developer" class="form-check-label text-white" style="background: none;">Developer</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3 row justify-content-center">
+                <label for="password" class="col-sm-4 col-form-label">Password</label>
+                <div class="col-sm-6">
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary col-4" type="submit">Submit</button>
+                <button class="btn btn-warning col-4" type="reset">Reset</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+        console.log("Login Page");
+    </script>
+
+</body>
+
+</html>

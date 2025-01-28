@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::title}, ~{::style}, ~{::#content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+
+<body>
+
+    <style>
+
+        body{
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8)), url('/bg.jpg');
+            background-size: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #content {
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            font-size: larger;
+        }
+
+        .mb-3 {}
+
+        h3 {
+            width: 75%;
+            margin: 15px auto;
+            padding: 5px;
+            color: white;
+        }
+
+        label {
+            background-color: yellowgreen;
+            color: black;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .action{
+        }
+    </style>
+
+    <div id="content" class="row justify-content-center fw-bold">
+            
+        <form th:action="@{/authenticate}" method="post" class="col-md-4 text-center mx-auto py-3 my-2"
+            style="border: 2px solid white;">
+            <h3>Login Form</h3>
+            <div class="form-group fs-4">
+                <p th:text="${message.content}" th:class="'text-' + ${message.type} + ' m-2'"></p>
+            </div>
+            <div class="mb-3 row justify-content-center">
+                <label for="email" class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-6">
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+            </div>
+            <div class="mb-3 row justify-content-center">
+                <label for="password" class="col-sm-4 col-form-label">Password</label>
+                <div class="col-sm-6">
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary col-4" type="submit">Submit</button>
+                <button class="btn btn-warning col-4" type="reset">Reset</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+        console.log("Login Page");
+    </script>
+
+</body>
+
+</html>

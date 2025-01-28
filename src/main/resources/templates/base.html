@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="parent(title, style, content, script)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">Base Page</title>
+    <th:block th:replace="~{fragments/links/style :: link}"></th:block>
+</head>
+<body>
+    <div th:replace="~{fragments/links/navbar :: navbar}"></div>
+    <!-- <div th:replace="~{fragments/links/sidebar :: sidebar-toggle}"></div> -->
+    <div th:replace="~{fragments/links/sidebar :: sidebar}"></div>
+    <div rel="stylesheet" th:replace="${style}"></div>
+    <div th:replace="${content}"></div>
+    <div th:replace="${script}"></div>
+    <th:block th:replace="~{fragments/links/script-link :: script}"></th:block>
+</body>
+</html>
